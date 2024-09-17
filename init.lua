@@ -1,12 +1,15 @@
-local colorscheme = 'gruvbox-baby'
--- local colorscheme = "terafox"
--- local colorscheme = "sonokai"
--- local colorscheme = "srcery"
--- local colorscheme = "zenwritten"
--- local colorscheme = "everforest"
--- local colorscheme = "kanagawa"
--- local colorscheme = "dayfox"
--- local colorscheme = "melange"
+local colorschemes = {
+  'gruvbox-baby',
+  'terafox',
+  'sonokai',
+  'srcery',
+  'zenwritten',
+  'everforest',
+  'kanagawa',
+  'dayfox',
+  'melange'
+}
+
 vim.g.sonokai_style = "maia"
 vim.g.sonokai_enable_italic = true
 vim.g.everforest_enable_italic = true
@@ -37,7 +40,7 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+-- Case-insensitive searching UNLESS \C or one or more capital letters i an the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
@@ -210,16 +213,16 @@ require('lazy').setup({
   },
 
   {
-    "github/copilot.vim",
-  },
-
-  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
-      provider = "copilot"
+      provider = "copilot",
+      auto_suggestions_provider = "copilot",
+      behaviour = {
+        auto_suggestions = true
+      }
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -230,7 +233,12 @@ require('lazy').setup({
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",      -- for providers='copilot'
+      {
+        "zbirenbaum/copilot.lua",    -- for providers='copilot'
+        init = function()
+          require("copilot").setup()
+        end
+      },
       {
         -- Make sure to set this up properly if you have lazy=true
         'MeanderingProgrammer/render-markdown.nvim',
@@ -267,15 +275,15 @@ require('lazy').setup({
     end,
   },
 
-  {
-    "benlubas/molten-nvim",
-    version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-    build = ":UpdateRemotePlugins",
-    init = function()
-      -- this is an example, not a default. Please see the readme for more configuration options
-      vim.g.molten_output_win_max_height = 12
-    end,
-  },
+  -- {
+  --   "benlubas/molten-nvim",
+  --   version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+  --   build = ":UpdateRemotePlugins",
+  --   init = function()
+  --     -- this is an example, not a default. Please see the readme for more configuration options
+  --     vim.g.molten_output_win_max_height = 12
+  --   end,
+  -- },
 
   {
     'akinsho/toggleterm.nvim',
@@ -300,29 +308,29 @@ require('lazy').setup({
     }
   },
 
-  {
-    "EthanJWright/vs-tasks.nvim",
-    dependencies = {
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-    },
-    config = function()
-      require("vstask").setup {
-        config_dir = ".tasks",
-        cache_json_conf = false
-      }
-    end,
-    keys = {
-      {
-        "<F5>",
-        function()
-          require("telescope").extensions.vstask.tasks()
-        end,
-        desc = "Launch tasks"
-      }
-    }
-  },
+  -- {
+  --   "EthanJWright/vs-tasks.nvim",
+  --   dependencies = {
+  --     "nvim-lua/popup.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --   },
+  --   config = function()
+  --     require("vstask").setup {
+  --       config_dir = ".tasks",
+  --       cache_json_conf = false
+  --     }
+  --   end,
+  --   keys = {
+  --     {
+  --       "<F5>",
+  --       function()
+  --         require("telescope").extensions.vstask.tasks()
+  --       end,
+  --       desc = "Launch tasks"
+  --     }
+  --   }
+  -- },
 
   {
     'romgrk/barbar.nvim',
@@ -343,7 +351,6 @@ require('lazy').setup({
         { '<M->>', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
         { '<M-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
         { '<C-q>', '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
-        { '<M-q>', '<Cmd>BufferWipeout!<CR>',     desc = 'force close buffer' },
       }
 
       for i = 1, 10 do
@@ -468,7 +475,7 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'search help' })
+      -- vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'search help' })
       -- vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       -- vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = 'live grep' })
@@ -479,10 +486,10 @@ require('lazy').setup({
       -- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>?', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find()
-      end, { desc = 'fuzzy search' })
+      -- vim.keymap.set('n', '<leader>?', function()
+      --   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+      --   builtin.current_buffer_fuzzy_find()
+      -- end, { desc = 'fuzzy search' })
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
@@ -567,20 +574,20 @@ require('lazy').setup({
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
+          -- map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'type definition')
+          -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'type definition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ss', require('telescope.builtin').lsp_document_symbols, 'document symbols')
+          -- map('<leader>ss', require('telescope.builtin').lsp_document_symbols, 'document symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'workspace symbols')
+          -- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'workspace symbols')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -724,7 +731,7 @@ require('lazy').setup({
           },
         },
 
-        tsserver = {},
+        ts_ls = {},
 
         jsonls = {},
 
@@ -983,13 +990,13 @@ require('lazy').setup({
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
           ['<CR>'] = cmp.mapping.confirm {},
-          ['<Tab>'] = cmp.mapping.select_next_item(),
-          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<Down>'] = cmp.mapping.select_next_item(),
+          ['<Up>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          -- ['<C-Space>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -999,16 +1006,16 @@ require('lazy').setup({
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
-            if luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            end
-          end, { 'i', 's' }),
-          ['<C-h>'] = cmp.mapping(function()
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            end
-          end, { 'i', 's' }),
+          -- ['<C-l>'] = cmp.mapping(function()
+          --   if luasnip.expand_or_locally_jumpable() then
+          --     luasnip.expand_or_jump()
+          --   end
+          -- end, { 'i', 's' }),
+          -- ['<C-h>'] = cmp.mapping(function()
+          --   if luasnip.locally_jumpable(-1) then
+          --     luasnip.jump(-1)
+          --   end
+          -- end, { 'i', 's' }),
 
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
@@ -1200,8 +1207,8 @@ require('lazy').setup({
     keys = {
       { '<leader>tt', '<cmd>:VimtexCompile<CR>',            desc = 'vimtex compile' },
       { '<leader>tv', '<cmd>:VimtexView<CR>',               desc = 'vimtex view' },
-      { '<C-c>',      '<esc>:w<cr><cmd>:VimtexCompile<CR>', desc = 'vimtex compile', mode = 'i' },
-      { '<C-c>',      ':w<cr><cmd>:VimtexCompile<CR>',      desc = 'vimtex compile', mode = 'n' },
+      { '<C-c><C-c>', '<esc>:w<cr><cmd>:VimtexCompile<CR>', desc = 'vimtex compile', mode = 'i' },
+      { '<C-c><C-c>', ':w<cr><cmd>:VimtexCompile<CR>',      desc = 'vimtex compile', mode = 'n' },
     },
   },
 }, {})
@@ -1228,31 +1235,32 @@ end
 
 TextWidthConfig()
 
--- -- Setup pico8 editing with pico8-ls and lua for syntax
--- vim.treesitter.language.register("lua", "pico8")
--- vim.filetype.add { extension = { p8 = "pico8" } }
--- vim.api.nvim_create_autocmd({ 'BufNew', 'BufEnter' }, {
---   pattern = { '*.p8' },
---   callback = function(args)
---     vim.lsp.start({
---       name = 'pico8-ls',
---       cmd = { 'pico8-ls', '--stdio' },
---       root_dir = vim.fs.dirname(vim.api.nvim_buf_get_name(args.buf)),
---       -- Setup your keybinds in the on_attach function
---       on_attach = on_attach,
---     })
---   end
--- })
-
 vim.filetype.add({
   extension = {
     gotmpl = 'gotmpl',
   }
 })
 
--- set colorscheme
-vim.cmd.colorscheme(colorscheme)
+local current_colorscheme_index = 1
 
+local function set_colorscheme(index)
+  local colorscheme = colorschemes[index]
+  if colorscheme then
+    vim.cmd.colorscheme(colorscheme)
+  else
+    print("Colorscheme not found!")
+  end
+end
+
+set_colorscheme(current_colorscheme_index)
+
+vim.keymap.set('n', '<leader>cs', function()
+  current_colorscheme_index = current_colorscheme_index % #colorschemes + 1
+  set_colorscheme(current_colorscheme_index)
+  print("Switched to colorscheme: " .. colorschemes[current_colorscheme_index])
+end, { desc = 'Cycle through colorschemes' })
+
+set_colorscheme(current_colorscheme_index)
 
 local highlight = vim.api.nvim_set_hl
 highlight(0, 'FloatBorder', { link = 'Normal' })
