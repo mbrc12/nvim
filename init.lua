@@ -212,42 +212,83 @@ require('lazy').setup({
     end,
   },
 
+  -- {
+  --   "yetone/avante.nvim",
+  --   event = "VeryLazy",
+  --   lazy = false,
+  --   version = false, -- set this if you want to always pull the latest change
+  --   opts = {
+  --     provider = "copilot",
+  --     behaviour = {
+  --       auto_suggestions = true
+  --     }
+  --   },
+  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  --   build = "make",
+  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+  --   dependencies = {
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     --- The below dependencies are optional,
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     {
+  --       "zbirenbaum/copilot.lua",    -- for providers='copilot'
+  --     },
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       'MeanderingProgrammer/render-markdown.nvim',
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- },
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this if you want to always pull the latest change
-    opts = {
-      provider = "copilot",
-      auto_suggestions_provider = "copilot",
-      behaviour = {
-        auto_suggestions = true
-      }
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        "zbirenbaum/copilot.lua",    -- for providers='copilot'
-        init = function()
-          require("copilot").setup()
-        end
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
+    "zbirenbaum/copilot.lua",
+    config = function()
+      require("copilot").setup({
+        panel = {
+          auto_refresh = true,
+          keymap = {
+            accept = "<CR>",
+            jump_prev = "[[",
+            jump_next = "]]",
+            refresh = "gr",
+            open = "<M-CR>",
+          },
         },
-        ft = { "markdown", "Avante" },
-      },
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = "<M-l>",
+            prev = "<M-[>",
+            next = "<M-]>",
+            dismiss = "<C-]>",
+          },
+        },
+      })
+    end,
+  },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
     },
+    build = "make tiktoken",        -- Only on MacOS or Linux
+    opts = {
+      debug = true,                 -- Enable debugging
+      -- See Configuration section for rest
+    },
+    keys = {
+      { "<leader>g",  "<cmd>CopilotChatToggle<CR>",  desc = "Toggle Copilot Chat" },
+      { "<leader>g;", "<cmd>CopilotChatExplain<CR>", desc = "Explain current code with copilot", mode = "v" },
+    },
+    -- See Commands section for default commands if you want to lazy load on them
   },
 
   'mhinz/vim-startify',
