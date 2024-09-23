@@ -1,11 +1,11 @@
 local colorschemes = {
+  'kanagawa', -- the first theme is the default
   'gruvbox-baby',
   'terafox',
   'sonokai',
   'srcery',
   'zenwritten',
   'everforest',
-  'kanagawa',
   'dayfox',
   'melange'
 }
@@ -88,30 +88,7 @@ vim.opt.autoread = true
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Change window' })
-
--- Keybinds to make split navigation easier.
---
---  See `:help wincmd` for a list of all window commands
--- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
--- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
--- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -212,45 +189,16 @@ require('lazy').setup({
     end,
   },
 
-  -- {
-  --   "yetone/avante.nvim",
-  --   event = "VeryLazy",
-  --   lazy = false,
-  --   version = false, -- set this if you want to always pull the latest change
-  --   opts = {
-  --     provider = "copilot",
-  --     behaviour = {
-  --       auto_suggestions = true
-  --     }
-  --   },
-  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-  --   build = "make",
-  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-  --   dependencies = {
-  --     "stevearc/dressing.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "MunifTanjim/nui.nvim",
-  --     --- The below dependencies are optional,
-  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-  --     {
-  --       "zbirenbaum/copilot.lua",    -- for providers='copilot'
-  --     },
-  --     {
-  --       -- Make sure to set this up properly if you have lazy=true
-  --       'MeanderingProgrammer/render-markdown.nvim',
-  --       opts = {
-  --         file_types = { "markdown", "Avante" },
-  --       },
-  --       ft = { "markdown", "Avante" },
-  --     },
-  --   },
-  -- },
+  {
+    'MeanderingProgrammer/render-markdown.nvim'
+  },
+
   {
     "zbirenbaum/copilot.lua",
     config = function()
       require("copilot").setup({
         panel = {
-          auto_refresh = true,
+          auto_refresh = false,
           keymap = {
             accept = "<CR>",
             jump_prev = "[[",
@@ -316,16 +264,6 @@ require('lazy').setup({
     end,
   },
 
-  -- {
-  --   "benlubas/molten-nvim",
-  --   version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-  --   build = ":UpdateRemotePlugins",
-  --   init = function()
-  --     -- this is an example, not a default. Please see the readme for more configuration options
-  --     vim.g.molten_output_win_max_height = 12
-  --   end,
-  -- },
-
   {
     'akinsho/toggleterm.nvim',
     version = "*",
@@ -349,29 +287,29 @@ require('lazy').setup({
     }
   },
 
-  -- {
-  --   "EthanJWright/vs-tasks.nvim",
-  --   dependencies = {
-  --     "nvim-lua/popup.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --   },
-  --   config = function()
-  --     require("vstask").setup {
-  --       config_dir = ".tasks",
-  --       cache_json_conf = false
-  --     }
-  --   end,
-  --   keys = {
-  --     {
-  --       "<F5>",
-  --       function()
-  --         require("telescope").extensions.vstask.tasks()
-  --       end,
-  --       desc = "Launch tasks"
-  --     }
-  --   }
-  -- },
+  {
+    "EthanJWright/vs-tasks.nvim",
+    dependencies = {
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("vstask").setup {
+        config_dir = ".tasks",
+        cache_json_conf = false
+      }
+    end,
+    keys = {
+      {
+        "<F5>",
+        function()
+          require("telescope").extensions.vstask.tasks()
+        end,
+        desc = "Launch tasks"
+      }
+    }
+  },
 
   {
     'romgrk/barbar.nvim',
@@ -1030,9 +968,15 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
+          -- ['<CR>'] = cmp.mapping.confirm {},
+          -- ['Tab'] = cmp.mapping.confirm { select = true },
+          -- ['<S-Tab>'] = cmp.mapping.confirm { select = true },
+          -- ['<Down>'] = cmp.mapping.select_next_item(),
+          -- ['<Up>'] = cmp.mapping.select_prev_item(),
+
           ['<CR>'] = cmp.mapping.confirm {},
-          ['<Down>'] = cmp.mapping.select_next_item(),
-          ['<Up>'] = cmp.mapping.select_prev_item(),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -1155,7 +1099,6 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -1232,17 +1175,29 @@ require('lazy').setup({
     lazy = false,
     config = function()
       vim.g.tex_flavor = 'latex'
-      vim.g.vimtex_compiler_method = "tectonic"
+      vim.g.vimtex_compiler_method = "latexmk"
       vim.g.vimtex_quickfix_method = "pplatex"
-      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull' }
+      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape' }
       -- { 'Underfull', 'Overfull', 'Token not allowed', 'Size', 'Draft', 'Citation', 'reference', 'Reference', 'Font shape',
       --   'recommended' }
       -- vim.g.vimtex_view_method = "general"
       vim.g.Tex_IgnoreLevel = 8
-      vim.g.vimtex_compiler_tectonic = {
+      vim.g.vimtex_compiler_latexmk = {
+        aux_dir = 'latexmk-build',
         continuous = 1,
-        -- options = { '-shell-escape', '-bibtex' },
+        options = {
+          '-shell-escape',
+          '-bibtex',
+          '-pdf',
+          '-file-line-error',
+          '-synctex=1',
+          '-interaction=nonstopmode',
+        },
       }
+      -- vim.g.vimtex_compiler_tectonic = {
+      --   continuous = 1,
+      --   -- options = { '-shell-escape', '-bibtex' },
+      -- }
       vim.g.vimtex_view_method = 'zathura_simple'
     end,
     keys = {
@@ -1254,10 +1209,19 @@ require('lazy').setup({
   },
 }, {})
 
+--- Set some keymaps
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Change window' })
 
 local wk = require 'which-key'
-
-wk.add({ { "<leader>ec", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" } })
+wk.add({
+  { '<Esc>',      '<cmd>nohlsearch<CR>',            desc = "remove highlights" },
+  -- Diagnostic keymaps
+  { '[d',         vim.diagnostic.goto_prev,         desc = 'Go to previous [D]iagnostic message' },
+  { ']d',         vim.diagnostic.goto_next,         desc = 'Go to next [D]iagnostic message' },
+  { '<leader>q',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },
+  { "<leader>ec", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" }
+})
 
 -- A custom setup to limit width via comments, primarily for latex or markdown documents.
 function TextWidthConfig()
@@ -1281,6 +1245,8 @@ vim.filetype.add({
     gotmpl = 'gotmpl',
   }
 })
+
+
 
 local current_colorscheme_index = 1
 
