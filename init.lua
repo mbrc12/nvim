@@ -1,13 +1,14 @@
+-- the first theme will be the default
 local colorschemes = {
-  'kanagawa', -- the first theme is the default
-  'gruvbox-baby',
+  'kanagawa',
   'terafox',
   'sonokai',
   'srcery',
   'zenwritten',
   'everforest',
   'dayfox',
-  'melange'
+  'melange',
+  'gruvbox-baby',
 }
 
 vim.g.sonokai_style = "maia"
@@ -310,7 +311,27 @@ require('lazy').setup({
       }
     }
   },
-
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      presets = {
+        bottom_search = true,
+        command_palette = true,       -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true,        -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    }
+  },
   {
     'romgrk/barbar.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -710,6 +731,8 @@ require('lazy').setup({
           },
         },
 
+        terraformls = {},
+
         ts_ls = {},
 
         jsonls = {},
@@ -903,15 +926,15 @@ require('lazy').setup({
             local MAX_LABEL_WIDTH = 60
             local ELLIPSIS_CHAR = '…'
 
-            local function fixed_width(content)
-              local result = ''
-              if #content > MAX_LABEL_WIDTH then
-                result = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
-              else
-                result = content
-              end
-              return result
-            end
+            -- local function fixed_width(content)
+            --   local result = ''
+            --   if #content > MAX_LABEL_WIDTH then
+            --     result = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
+            --   else
+            --     result = content
+            --   end
+            --   return result
+            -- end
 
             local menu_icon = {
               nvim_lsp = 'λ ',
@@ -921,7 +944,7 @@ require('lazy').setup({
               path = '🖫 ',
             }
 
-            item.abbr = fixed_width(item.abbr)
+            -- item.abbr = fixed_width(item.abbr)
 
             item.menu = menu_icon[entry.source.name]
             item.kind_hl_group = 'TSString'
@@ -1177,7 +1200,7 @@ require('lazy').setup({
       vim.g.tex_flavor = 'latex'
       vim.g.vimtex_compiler_method = "latexmk"
       vim.g.vimtex_quickfix_method = "pplatex"
-      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape' }
+      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape', 'multiple', 'referenced' }
       -- { 'Underfull', 'Overfull', 'Token not allowed', 'Size', 'Draft', 'Citation', 'reference', 'Reference', 'Font shape',
       --   'recommended' }
       -- vim.g.vimtex_view_method = "general"
