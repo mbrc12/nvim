@@ -1,15 +1,19 @@
 -- the first theme will be the default
 local colorschemes = {
-  'kanagawa',
+  'srcery',
+  'kanagawa-wave',
   'terafox',
   'sonokai',
-  'srcery',
   'zenwritten',
   'everforest',
   'dayfox',
   'melange',
   'gruvbox-baby',
 }
+
+vim.g.srcery_bright_white = "#e2d4bc" -- modify the default white to be slightly less stark
+vim.g.srcery_green = "#4c927e"        -- make the green more bluish
+vim.g.srcery_italic = 1
 
 vim.g.sonokai_style = "maia"
 vim.g.sonokai_enable_italic = true
@@ -83,6 +87,8 @@ vim.opt.softtabstop = 4
 vim.opt.wrap = false
 vim.opt.wildmenu = true
 vim.opt.autoread = true
+
+vim.opt.cmdheight = 0
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -212,6 +218,7 @@ require('lazy').setup({
           auto_trigger = true,
           keymap = {
             accept = "<M-l>",
+            accept_word = "<M-;>",
             prev = "<M-[>",
             next = "<M-]>",
             dismiss = "<C-]>",
@@ -230,7 +237,7 @@ require('lazy').setup({
     },
     build = "make tiktoken",        -- Only on MacOS or Linux
     opts = {
-      debug = true,                 -- Enable debugging
+      -- debug = true,                 -- Enable debugging
       -- See Configuration section for rest
     },
     keys = {
@@ -309,27 +316,6 @@ require('lazy').setup({
         end,
         desc = "Launch tasks"
       }
-    }
-  },
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      presets = {
-        bottom_search = true,
-        command_palette = true,       -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true,        -- add a border to hover docs and signature help
-      },
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
     }
   },
   {
@@ -781,6 +767,7 @@ require('lazy').setup({
       setup_server("gopls", {
         settings = {
           gopls = {
+            buildFlags = { "-tags=wireinject", "-tags=!wireinject" },
             hints = {
               rangeVariableTypes = true,
               parameterNames = true,
