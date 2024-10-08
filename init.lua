@@ -1,9 +1,11 @@
 -- the first theme will be the default
 local colorschemes = {
+  'gruvbox-material',
+  'sonokai',
+  'vague',
   'srcery',
   'kanagawa-wave',
   'terafox',
-  'sonokai',
   'zenwritten',
   'everforest',
   'dayfox',
@@ -11,12 +13,18 @@ local colorschemes = {
   'gruvbox-baby',
 }
 
+vim.g.gruvbox_material_background = 'hard'
+vim.g.gruvbox_material_enable_italic = '1'
+-- vim.g.gruvbox_material_enable_bold = '1'
+vim.g.gruvbox_material_dim_inactive_windows = '1'
+
 vim.g.srcery_bright_white = "#e2d4bc" -- modify the default white to be slightly less stark
 vim.g.srcery_green = "#4c927e"        -- make the green more bluish
 vim.g.srcery_italic = 1
 
-vim.g.sonokai_style = "maia"
+vim.g.sonokai_style = "shusia"
 vim.g.sonokai_enable_italic = true
+
 vim.g.everforest_enable_italic = true
 vim.g.everforest_background = "hard"
 
@@ -223,6 +231,9 @@ require('lazy').setup({
             next = "<M-]>",
             dismiss = "<C-]>",
           },
+        },
+        filetypes = {
+          markdown = true
         },
       })
     end,
@@ -767,7 +778,7 @@ require('lazy').setup({
       setup_server("gopls", {
         settings = {
           gopls = {
-            buildFlags = { "-tags=wireinject", "-tags=!wireinject" },
+            buildFlags = { "-tags=wireinject" },
             hints = {
               rangeVariableTypes = true,
               parameterNames = true,
@@ -1028,6 +1039,8 @@ require('lazy').setup({
     end,
   },
 
+  "vague2k/vague.nvim",
+
   "savq/melange-nvim",
 
   "sainnhe/everforest",
@@ -1066,6 +1079,11 @@ require('lazy').setup({
         }
       }
     }
+  },
+
+  {
+    'sainnhe/gruvbox-material',
+    lazy = "VeryLazy",
   },
 
   {
