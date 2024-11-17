@@ -288,7 +288,7 @@ require('lazy').setup({
     version = "*",
     config = true,
     opts = {
-      open_mapping = "<C-s>",
+      open_mapping = "<F7>",
       direction = "horizontal"
     },
   },
@@ -1205,7 +1205,8 @@ require('lazy').setup({
       vim.g.tex_flavor = 'latex'
       vim.g.vimtex_compiler_method = "latexmk"
       vim.g.vimtex_quickfix_method = "pplatex"
-      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape', 'multiple', 'referenced' }
+      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape', 'multiple', 'referenced', 'cnf',
+        'Size' }
       -- { 'Underfull', 'Overfull', 'Token not allowed', 'Size', 'Draft', 'Citation', 'reference', 'Reference', 'Font shape',
       --   'recommended' }
       -- vim.g.vimtex_view_method = "general"
@@ -1248,6 +1249,8 @@ wk.add({
   { '[d',         vim.diagnostic.goto_prev,         desc = 'Go to previous [D]iagnostic message' },
   { ']d',         vim.diagnostic.goto_next,         desc = 'Go to next [D]iagnostic message' },
   { '<leader>q',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },
+  { '<C-s>',      ":w<CR>",                         desc = 'Save' },
+  { '<C-s>',      "<Esc>:w<CR>",                    desc = 'Save',                               mode = 'i' },
   { "<leader>ec", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" }
 })
 
