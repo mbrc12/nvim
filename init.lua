@@ -692,7 +692,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         ltex = {
           filetypes = { 'latex', 'tex', 'bib', 'text' },
         },
@@ -1233,7 +1233,10 @@ require('lazy').setup({
       --   continuous = 1,
       --   -- options = { '-shell-escape', '-bibtex' },
       -- }
-      vim.g.vimtex_view_method = 'zathura_simple'
+      -- vim.g.vimtex_view_method = 'zathura_simple'
+
+      vim.g.vimtex_view_general_viewer = 'okular'
+      vim.g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
     end,
     keys = {
       { '<leader>tt', '<cmd>:VimtexCompile<CR>',            desc = 'vimtex compile' },
@@ -1315,8 +1318,8 @@ highlight(0, 'NormalFloat', { link = 'Normal' })
 -- vim.o.guifont = "Iosevka Extended:h14"
 -- vim.o.guifont = "CommitMono Nerd Font:h15"
 -- vim.o.guifont = "Hurmit Nerd Font:h14"
--- vim.o.guifont = "JetBrainsMono Nerd Font:h15"
--- vim.o.guifont = "FiraCode Nerd Font:h14.5"
+vim.o.guifont = "JetBrains Mono:h12"
+-- vim.o.guifont = "Fira Code:h12"
 -- vim.o.guifont = "Hasklug Nerd Font:h16"
 
 function NeovideFullscreen()
@@ -1333,11 +1336,9 @@ vim.g.neovide_cursor_trail_size = 0
 vim.g.neovide_cursor_vfx_mode = ""
 vim.g.neovide_cursor_vfx_particle_density = 20.0
 
--- wk.register({
---   ["<F11>"] = { NeovideFullscreen, "Toggle fullscreen in neovide" }
--- }, {
---   mode = { "i", "n", "v", "t" }
--- })
+wk.add({
+  { "<F11>", NeovideFullscreen, desc = "Toggle fullscreen in neovide", mode = { "i", "n", "t", "v" } },
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
