@@ -288,7 +288,7 @@ require('lazy').setup({
     version = "*",
     config = true,
     opts = {
-      open_mapping = "<F7>",
+      open_mapping = "<C-e>",
       direction = "horizontal"
     },
   },
@@ -713,6 +713,7 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
 
+
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -733,7 +734,16 @@ require('lazy').setup({
 
         terraformls = {},
 
-        ts_ls = {},
+        -- ts_ls = {}
+
+        volar = {
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+          init_options = {
+            vue = {
+              hybridMode = false,
+            },
+          },
+        },
 
         jsonls = {},
 
@@ -776,8 +786,8 @@ require('lazy').setup({
       }
 
       -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
-      setup_server("pyright", { cmd = { "rye", "run", "pyright-langserver", "--stdio" } })
-      setup_server("ruff_lsp", { cmd = { "rye", "run", "ruff-lsp" } })
+      setup_server("pyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
+      setup_server("ruff_lsp", { cmd = { "uv", "run", "ruff-lsp" } })
       -- setup_server("csharp_ls", {})
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
       setup_server("rust_analyzer", {})
@@ -798,6 +808,7 @@ require('lazy').setup({
         }
       })
 
+      setup_server("gdscript", {})
 
       -- require("lspconfig").lspai.setup {}
     end,
@@ -1233,10 +1244,10 @@ require('lazy').setup({
       --   continuous = 1,
       --   -- options = { '-shell-escape', '-bibtex' },
       -- }
-      -- vim.g.vimtex_view_method = 'zathura_simple'
+      vim.g.vimtex_view_method = 'zathura_simple'
 
-      vim.g.vimtex_view_general_viewer = 'okular'
-      vim.g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
+      -- vim.g.vimtex_view_general_viewer = 'okular'
+      -- vim.g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
     end,
     keys = {
       { '<leader>tt', '<cmd>:VimtexCompile<CR>',            desc = 'vimtex compile' },
@@ -1260,7 +1271,7 @@ wk.add({
   { '<leader>q',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },
   { '<C-s>',      ":w<CR>",                         desc = 'Save' },
   { '<C-s>',      "<Esc>:w<CR>",                    desc = 'Save',                               mode = 'i' },
-  { "<leader>ec", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" }
+  { "<leader>11", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" }
 })
 
 -- A custom setup to limit width via comments, primarily for latex or markdown documents.
@@ -1318,9 +1329,13 @@ highlight(0, 'NormalFloat', { link = 'Normal' })
 -- vim.o.guifont = "Iosevka Extended:h14"
 -- vim.o.guifont = "CommitMono Nerd Font:h15"
 -- vim.o.guifont = "Hurmit Nerd Font:h14"
-vim.o.guifont = "JetBrains Mono:h12"
+vim.o.guifont = "JetBrains Mono:h11"
 -- vim.o.guifont = "Fira Code:h12"
 -- vim.o.guifont = "Hasklug Nerd Font:h16"
+-- vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+-- vim.o.guifont = "IosevkaTerm Nerd Font:h12"
+-- vim.o.guifont = "IosevkaTermSlab Nerd Font:h12"
+-- vim.o.guifont = "UbuntuMono Nerd Font:h14.5"
 
 function NeovideFullscreen()
   if vim.g.neovide_fullscreen == true then
