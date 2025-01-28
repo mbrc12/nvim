@@ -1,4 +1,5 @@
 -- the first theme will be the default
+--
 local colorschemes = {
   'gruvbox-material',
   'sonokai',
@@ -209,6 +210,16 @@ require('lazy').setup({
   },
 
   {
+    'chomosuke/typst-preview.nvim',
+    ft = 'typst', -- or ft = 'typst'
+    version = '1.*',
+    opts = {},    -- lazy.nvim will implicitly calls `setup {}
+    keys = {
+      { '<leader>tt', '<cmd>:TypstPreview<CR>', desc = 'typst preview' },
+    },
+  },
+
+  {
     "zbirenbaum/copilot.lua",
     config = function()
       require("copilot").setup({
@@ -371,6 +382,30 @@ require('lazy').setup({
     keys = {
       { "<leader>p", function() require 'telescope'.extensions.projects.projects {} end, "Open projects" }
     }
+  },
+  {
+    "allaman/emoji.nvim",
+    version = "1.0.0", -- optionally pin to a tag
+    dependencies = {
+      -- util for handling paths
+      "nvim-lua/plenary.nvim",
+      -- optional for nvim-cmp integration
+      "hrsh7th/nvim-cmp",
+      -- optional for telescope integration
+      "nvim-telescope/telescope.nvim",
+      -- optional for fzf-lua integration via vim.ui.select
+      "ibhagwan/fzf-lua",
+    },
+    opts = {
+      -- default is false, also needed for blink.cmp integration!
+      -- enable_cmp_integration = true,
+    },
+    config = function(_, opts)
+      require("emoji").setup(opts)
+      -- optional for telescope integration
+      local ts = require('telescope').load_extension 'emoji'
+      vim.keymap.set('n', '<C-a>', ts.emoji, { desc = '[S]earch [E]moji' })
+    end,
   },
 
   {
@@ -712,7 +747,22 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
+        -- denols = {},
+        --
+        prettier = {},
+        ts_ls = {},
 
+        tinymist = {
+          settings = {
+            formatterMode = "typstyle",
+            exportPdf = "onType",
+            semanticTokens = "disable"
+          }
+        },
+
+        ["some-sass-language-server"] = {
+          filetypes = { 'scss', 'sass', 'css' },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -736,14 +786,14 @@ require('lazy').setup({
 
         -- ts_ls = {}
 
-        volar = {
-          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-          init_options = {
-            vue = {
-              hybridMode = false,
-            },
-          },
-        },
+        -- volar = {
+        --   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        --   init_options = {
+        --     vue = {
+        --       hybridMode = false,
+        --     },
+        --   },
+        -- },
 
         jsonls = {},
 
@@ -787,7 +837,7 @@ require('lazy').setup({
 
       -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
       setup_server("pyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
-      setup_server("ruff_lsp", { cmd = { "uv", "run", "ruff-lsp" } })
+      setup_server("ruff", { cmd = { "uv", "run", "ruff-lsp" } })
       -- setup_server("csharp_ls", {})
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
       setup_server("rust_analyzer", {})
