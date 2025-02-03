@@ -127,8 +127,7 @@ require("lazy").setup({
           keymap = {
             accept = "<M-]>",
             accept_word = "<M-\\>",
-            prev = "<leader>cn",
-            next = "<leader>cp",
+            prev = "<M->>",
           },
         },
         filetypes = {
@@ -522,9 +521,9 @@ require("lazy").setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        ltex = {
-          filetypes = { 'latex', 'tex', 'bib', 'text' },
-        },
+        -- ltex = {
+        --   filetypes = { 'latex', 'tex', 'bib', 'text' },
+        -- },
 
         julials = {
         },
