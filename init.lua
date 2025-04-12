@@ -125,7 +125,7 @@ require("lazy").setup({
         suggestion = {
           auto_trigger = true,
           keymap = {
-            accept = "<M-]>",
+            accept = "<M-=>",
             accept_word = "<M-\\>",
             prev = "<M->>",
           },
@@ -521,9 +521,9 @@ require("lazy").setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        -- ltex = {
-        --   filetypes = { 'latex', 'tex', 'bib', 'text' },
-        -- },
+        ltex = {
+          filetypes = { 'latex', 'tex', 'bib', 'text' },
+        },
 
         julials = {
         },
@@ -620,7 +620,7 @@ require("lazy").setup({
       }
 
       -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
-      setup_server("pyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
+      setup_server("pyright", { cmd = { "uv", "run", "pyright-langserver", "--stdio" } })
       setup_server("ruff", { cmd = { "uv", "run", "ruff-lsp" } })
       -- setup_server("csharp_ls", {})
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
@@ -682,6 +682,24 @@ require("lazy").setup({
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
       },
+    },
+  },
+
+  {
+    'milanglacier/yarepl.nvim',
+    init = function()
+      local yarepl = require('yarepl')
+      yarepl.setup {
+        wincmd = 'belowright 75 vsplit',
+        metas = {
+          ipython = { cmd = { "uv", "run", "ipython" } },
+        }
+      }
+    end,
+    keys = {
+      { '<leader>rs', '<cmd>REPLStart<CR>',      desc = 'Start REPL' },
+      { 'E',          '<cmd>REPLSendVisual<CR>', desc = 'Send block', mode = 'v' },
+      { '<leader>ee', '<cmd>REPLSendLine<CR>',   desc = 'Send line' },
     },
   },
 
@@ -893,8 +911,8 @@ require("lazy").setup({
       vim.g.tex_flavor = 'latex'
       vim.g.vimtex_compiler_method = "latexmk"
       vim.g.vimtex_quickfix_method = "pplatex"
-      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull', 'Font shape', 'multiple', 'referenced', 'cnf',
-        'Size', 'Citation', 'reference', 'Reference' }
+      vim.g.vimtex_quickfix_ignore_filters = { 'Underfull', 'Overfull' } -- 'Font shape', 'multiple', 'referenced', 'cnf',
+      --   'Size', 'Citation', 'reference', 'Reference' }
       -- { 'Underfull', 'Overfull', 'Token not allowed', 'Size', 'Draft', 'Citation', 'reference', 'Reference', 'Font shape',
       --   'recommended' }
       -- vim.g.vimtex_view_method = "general"
