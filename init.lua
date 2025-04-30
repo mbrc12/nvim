@@ -429,22 +429,7 @@ require("lazy").setup({
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, 'goto references')
 
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
           -- map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
-
-          -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
-          -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'type definition')
-
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          -- map('<leader>ss', require('telescope.builtin').lsp_document_symbols, 'document symbols')
-
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          -- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'workspace symbols')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -496,9 +481,9 @@ require("lazy").setup({
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            -- map('<leader>th', function()
-            --   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
-            -- end, 'inlay hints')
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
+            end, 'inlay hints')
           end
         end,
       })
@@ -532,16 +517,8 @@ require("lazy").setup({
 
         jdtls = {},
 
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- denols = {},
-        --
+        zls = {},
+
         prettier = {},
         ts_ls = {},
 
@@ -620,8 +597,8 @@ require("lazy").setup({
       }
 
       -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
-      setup_server("pyright", { cmd = { "uv", "run", "pyright-langserver", "--stdio" } })
-      setup_server("ruff", { cmd = { "uv", "run", "ruff-lsp" } })
+      setup_server("basedpyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
+      setup_server("ruff", { cmd = { "uv", "run", "ruff", "server" } })
       -- setup_server("csharp_ls", {})
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
       setup_server("rust_analyzer", {})
@@ -675,31 +652,7 @@ require("lazy").setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
       },
-    },
-  },
-
-  {
-    'milanglacier/yarepl.nvim',
-    init = function()
-      local yarepl = require('yarepl')
-      yarepl.setup {
-        wincmd = 'belowright 75 vsplit',
-        metas = {
-          ipython = { cmd = { "uv", "run", "ipython" } },
-        }
-      }
-    end,
-    keys = {
-      { '<leader>rs', '<cmd>REPLStart<CR>',      desc = 'Start REPL' },
-      { 'E',          '<cmd>REPLSendVisual<CR>', desc = 'Send block', mode = 'v' },
-      { '<leader>ee', '<cmd>REPLSendLine<CR>',   desc = 'Send line' },
     },
   },
 
@@ -711,15 +664,6 @@ require("lazy").setup({
       {
         'L3MON4D3/LuaSnip',
         version = 'v2.*',
-        -- build = (function()
-        --   -- Build Step is needed for regex support in snippets.
-        --   -- This step is not supported in many windows environments.
-        --   -- Remove the below condition to re-enable on windows.
-        --   if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-        --     return
-        --   end
-        --   return 'make install_jsregexp'
-        -- end)(),
         dependencies = {},
       },
       'saadparwaiz1/cmp_luasnip',
