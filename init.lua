@@ -133,8 +133,22 @@ require("lazy").setup({
         filetypes = {
           markdown = true
         },
+        server_opts_overrides = {
+          settings = {
+            telemetry = {
+              telemetryLevel = "off"
+            }
+          }
+        }
       })
     end,
+  },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
   },
 
   {
@@ -761,6 +775,7 @@ require("lazy").setup({
         sources = {
           { name = 'nvim_lsp_signature_help' },
           { name = 'lazydev',                group_index = 0 },
+          { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -777,14 +792,14 @@ require("lazy").setup({
     config = function()
       vim.g.gruvbox_material_background = 'hard'
       vim.g.gruvbox_material_enable_italic = '1'
-      -- vim.g.gruvbox_material_enable_bold = '1'
+      vim.g.gruvbox_material_enable_bold = '1'
       vim.g.gruvbox_material_dim_inactive_windows = '1'
     end
   },
 
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons', 'AndreM222/copilot-lualine' },
     lazy = false,
     config = function()
       require('lualine').setup {
@@ -800,7 +815,7 @@ require("lazy").setup({
           lualine_a = { 'mode' },
           lualine_b = { 'branch', 'diff' },
           lualine_c = { 'filename' }, --, require('lsp-progress').progress },
-          lualine_x = { 'encoding', 'fileformat', { 'diagnostics', sources = { 'nvim_lsp' } }, 'filetype' },
+          lualine_x = { 'copilot', 'encoding', 'fileformat', { 'diagnostics', sources = { 'nvim_lsp' } }, 'filetype' },
           lualine_y = { 'location', 'progress' },
           lualine_z = { { 'datetime', style = '%H:%M' } },
         },
@@ -897,11 +912,9 @@ local wk = require 'which-key'
 wk.add({
   { '<Esc>',      '<cmd>nohlsearch<CR>',            desc = "remove highlights" },
   -- Diagnostic keymaps
-  { 'en',         vim.diagnostic.goto_prev,         desc = 'Go to previous [D]iagnostic message' },
-  { 'ep',         vim.diagnostic.goto_next,         desc = 'Go to next [D]iagnostic message' },
   { '<leader>e',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },
   { '<C-s>',      ":w<CR>",                         desc = 'Save' },
-  { '<C-s>',      "<Esc>:w<CR>",                    desc = 'Save',                               mode = 'i' },
+  { '<C-s>',      "<Esc>:w<CR>",                    desc = 'Save',                            mode = 'i' },
   { "<leader>if", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" }
 })
 
