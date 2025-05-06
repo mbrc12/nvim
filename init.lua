@@ -443,7 +443,7 @@ require("lazy").setup({
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, 'goto references')
 
-          -- map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
+          map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -670,6 +670,19 @@ require("lazy").setup({
     },
   },
 
+
+  {
+    'dense-analysis/ale',
+    config = function()
+      -- Configuration goes here.
+      local g = vim.g
+
+      g.ale_linters = {
+        cpp = { 'cppcheck' }
+      }
+    end
+  },
+
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -796,6 +809,8 @@ require("lazy").setup({
       vim.g.gruvbox_material_dim_inactive_windows = '1'
     end
   },
+
+  { "EdenEast/nightfox.nvim" },
 
   {
     'nvim-lualine/lualine.nvim',
@@ -941,12 +956,37 @@ vim.filetype.add({
   }
 })
 
-vim.cmd.colorscheme("gruvbox-material")
+local night_scheme = "gruvbox-material"
+local day_scheme = "dayfox"
+
+function PostColorscheme()
+  local highlight = vim.api.nvim_set_hl
+  highlight(0, 'FloatBorder', { link = 'Normal' })
+  highlight(0, 'NormalFloat', { link = 'Normal' })
+end
+
+vim.opt.background = 'dark'
+vim.cmd.colorscheme(night_scheme)
+PostColorscheme()
+
+function ToggleColorscheme()
+  if vim.opt.background:get() == 'dark' then
+    vim.opt.background = 'light'
+    vim.cmd.colorscheme(day_scheme)
+  else
+    vim.opt.background = 'dark'
+    vim.cmd.colorscheme(night_scheme)
+  end
+
+  PostColorscheme()
+end
+
+wk.add({
+  { '<F10>', ToggleColorscheme, desc = 'Toggle night/day mode' },
+})
+
 
 --- SET COLORSCHEMES BEFORE THIS
-local highlight = vim.api.nvim_set_hl
-highlight(0, 'FloatBorder', { link = 'Normal' })
-highlight(0, 'NormalFloat', { link = 'Normal' })
 
 ------- Neovide config ----------------------
 -- vim.o.guifont = "Iosevka Extended:h14"
