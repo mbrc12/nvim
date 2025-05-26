@@ -21,7 +21,7 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '· ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split' -- Preview substitutions live, as you type!
 vim.opt.cursorline = true    -- Show which line your cursor is on
-vim.opt.numberwidth = 5
+vim.opt.numberwidth = 3
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.tabstop = 4
@@ -145,13 +145,6 @@ require("lazy").setup({
   },
 
   {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup()
-    end
-  },
-
-  {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     dependencies = {
@@ -233,9 +226,9 @@ require("lazy").setup({
 
     keys = (function()
       local keys = {
-        { '<M->>', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
-        { '<M-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
-        { '<C-q>', '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
+        { '<leader>tr', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
+        { '<leader>tl', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
+        { '<C-q>',      '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
       }
 
       for i = 1, 10 do
@@ -259,7 +252,6 @@ require("lazy").setup({
   },
   {
     'nvim-tree/nvim-tree.lua',
-    event = 'VeryLazy',
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
@@ -348,9 +340,9 @@ require("lazy").setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>fa', builtin.live_grep, { desc = 'live grep' })
+      vim.keymap.set('n', '<leader>s', builtin.live_grep, { desc = 'live grep' })
       vim.keymap.set('n', '<leader>fc', builtin.current_buffer_fuzzy_find, { desc = 'fuzzy search in current file' })
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'find files' })
+      vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
       vim.keymap.set('n', '<F9>', builtin.diagnostics, { desc = 'search diagnostics' })
       vim.keymap.set('n', '<F12>', builtin.resume, { desc = 'telescope resume' })
       -- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -392,18 +384,18 @@ require("lazy").setup({
 
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
-      {
-        "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
-        opts = {
-          library = {
-            -- See the configuration section for more details
-            -- Load luvit types when the `vim.uv` word is found
-            { path = "luvit-meta/library", words = { "vim%.uv" } },
-          },
-        },
-      },
-      { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+      -- {
+      --   "folke/lazydev.nvim",
+      --   ft = "lua", -- only load on lua files
+      --   opts = {
+      --     library = {
+      --       -- See the configuration section for more details
+      --       -- Load luvit types when the `vim.uv` word is found
+      --       { path = "luvit-meta/library", words = { "vim%.uv" } },
+      --     },
+      --   },
+      -- },
+      { "Bilal2453/luvit-meta",    lazy = true }, -- optional `vim.uv` typings
     },
     config = function()
       --  This function gets run when an LSP attaches to a particular buffer.
@@ -424,7 +416,7 @@ require("lazy").setup({
 
           -- Make lsp popup borders rounded by replacing the function for preview
           -- and also limit the width
-          local border = 'rounded'
+          local border = 'single'
 
           local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
           function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -520,6 +512,7 @@ require("lazy").setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
+
         ltex = {
           filetypes = { 'latex', 'tex', 'bib', 'text' },
         },
@@ -765,13 +758,13 @@ require("lazy").setup({
 
         window = {
           completion = {
-            border = 'rounded',
+            border = 'single',
             -- winhighlight = "NormalFloat:Normal"
             winhighlight = 'Normal:CmpNormal',
           },
 
           documentation = {
-            border = 'rounded',
+            border = 'single',
             max_width = 60,
             -- max_height = 20,
           },
@@ -810,7 +803,20 @@ require("lazy").setup({
     end
   },
 
-  { "EdenEast/nightfox.nvim" },
+  {
+    "EdenEast/nightfox.nvim",
+    config = function()
+      require('nightfox').setup({
+        options = {
+          styles = {
+            comments = "italic",
+            keywords = "bold",
+            types = "italic,bold",
+          }
+        }
+      })
+    end
+  },
 
   {
     'nvim-lualine/lualine.nvim',
