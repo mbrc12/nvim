@@ -524,8 +524,6 @@ require("lazy").setup({
 
         jdtls = {},
 
-        zls = {},
-
         prettier = {},
         ts_ls = {},
 
@@ -627,8 +625,6 @@ require("lazy").setup({
       })
 
       setup_server("gdscript", {})
-
-      -- require("lspconfig").lspai.setup {}
     end,
   },
 
@@ -661,19 +657,6 @@ require("lazy").setup({
         lua = { 'stylua' },
       },
     },
-  },
-
-
-  {
-    'dense-analysis/ale',
-    config = function()
-      -- Configuration goes here.
-      local g = vim.g
-
-      g.ale_linters = {
-        cpp = { 'cppcheck' }
-      }
-    end
   },
 
   { -- Autocompletion
