@@ -206,6 +206,24 @@ require("lazy").setup({
       },
     }
   },
+
+  {
+    'j-morano/buffer_manager.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require("buffer_manager").setup {
+        focus_alternate_buffer = true,
+        order_buffers = "lastused",
+      }
+    end,
+    keys = {
+      { '<leader><leader>', [[:lua require("buffer_manager.ui").toggle_quick_menu()<CR>]], desc = 'Toggle buffer manager' },
+    },
+  },
+
   -- {
   --   'romgrk/barbar.nvim',
   --   dependencies = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -250,6 +268,7 @@ require("lazy").setup({
 
   {
     'nvim-tree/nvim-tree.lua',
+    lazy = false,
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
@@ -511,6 +530,8 @@ require("lazy").setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        csharp_ls = {},
+
         clangd = {},
 
         ltex = {
@@ -604,7 +625,6 @@ require("lazy").setup({
       -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
       setup_server("basedpyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
       setup_server("ruff", { cmd = { "uv", "run", "ruff", "server" } })
-      -- setup_server("csharp_ls", {})
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
       setup_server("rust_analyzer", {})
       setup_server("gopls", {
@@ -659,18 +679,19 @@ require("lazy").setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
+      -- format_on_save = function(bufnr)
+      --   -- Disable "format_on_save lsp_fallback" for languages that don't
+      --   -- have a well standardized coding style. You can add additional
+      --   -- languages here or re-enable it for the disabled ones.
+      --   local disable_filetypes = { c = true, cpp = true, gdscript = true }
+      --   return {
+      --     timeout_ms = 500,
+      --     lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+      --   }
+      -- end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        gdscript = { 'gdformat' },
       },
     },
   },
@@ -805,6 +826,15 @@ require("lazy").setup({
   },
 
   {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('nordic').load()
+    end
+  },
+
+  {
     "EdenEast/nightfox.nvim",
     config = function()
       require('nightfox').setup({
@@ -931,6 +961,13 @@ require("lazy").setup({
 -- vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Change window' })
 
 local telescope_builtin = require 'telescope.builtin'
+local telescope_buffers = function()
+  telescope_builtin.buffers {
+    sort_lastused = true,
+    ignore_current_buffer = true,
+    show_all_buffers = true,
+  }
+end
 
 local wk = require 'which-key'
 wk.add({
@@ -940,12 +977,13 @@ wk.add({
   { '<C-s>',      ":w<CR>",                         desc = 'Save' },
   { '<C-s>',      "<Esc>:w<CR>",                    desc = 'Save',                            mode = 'i' },
   { "<leader>if", ":e ~/.config/nvim/init.lua<CR>", desc = "edit config" },
-  { "<M-s>",      "<esc><C-w>p",                    desc = "goto other window",               mode = { 'n', 'i' } },
-  { "<M-s>",      "<C-\\><C-n><C-w>p",              desc = "goto other window",               mode = { 't' } },
-  { "<M-w>",      telescope_builtin.buffers,        desc = "list buffers",                    mode = { 'n', 't' } },
+  -- { "<M-s>",      "<esc><C-w>p",                    desc = "goto other window",               mode = { 'n', 'i' } },
+  -- { "<M-s>",      "<C-\\><C-n><C-w>p",              desc = "goto other window",               mode = { 't' } },
+  -- { "<leader><leader>", telescope_buffers,                desc = "list buffers",                    mode = { 'n', 't' } },
   { "<C-q>",      ":bw!<CR>",                       desc = "close buffer",                    mode = { 'n' } },
   { "<C-q>",      "<C-\\><C-n>:bw!<CR>",            desc = "close buffer",                    mode = { 't' } },
   { "<F9>",       telescope_builtin.oldfiles,       desc = "recent files" },
+  { "<F7>",       ":vs|te<CR>",                     desc = "vertical split and open terminal" },
 })
 
 -- A custom setup to limit width via comments, primarily for latex or markdown documents.
@@ -972,6 +1010,7 @@ vim.filetype.add({
 })
 
 local night_scheme = "gruvbox-material"
+-- local night_scheme = "nordic"
 local day_scheme = "dayfox"
 
 function PostColorscheme()
@@ -1031,7 +1070,7 @@ local project_rooter_config = {
 }
 
 local function ProjectRooter()
-  config = project_rooter_config
+  local config = project_rooter_config
   local patterns = config.patterns
 
   local current = vim.fn.expand('%:p:h')
@@ -1075,9 +1114,13 @@ local function ProjectRooter()
   end)
 end
 
+local wk = require 'which-key'
+
 wk.add({
   { '<leader>pp', ProjectRooter, desc = 'Project rooter' },
 })
+
+vim.cmd([[hi BufferManagerModified cterm=italic ctermfg=Red gui=bold,italic guifg=#E7737F]])
 
 --- SET COLORSCHEMES BEFORE THIS
 
@@ -1115,5 +1158,6 @@ vim.g.neovide_cursor_vfx_particle_density = 20.0
 wk.add({
   { "<F11>", NeovideFullscreen, desc = "Toggle fullscreen in neovide", mode = { "i", "n", "t", "v" } },
 })
+
 
 -- vim: ts=2 sts=2 sw=2 et
