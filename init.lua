@@ -622,9 +622,11 @@ require("lazy").setup({
         },
       }
 
-      -- setup_server("pylsp", { cmd = { "rye", "run", "pylsp" } })
-      setup_server("basedpyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
+      -- setup_server("pylsp", { cmd = { "uv", "run", "pylsp" } })
+      setup_server("pyright", { cmd = {"uv", "run", "pyright-langserver", "--stdio"} })
+      -- setup_server("basedpyright", { cmd = { "uv", "run", "basedpyright-langserver", "--stdio" } })
       setup_server("ruff", { cmd = { "uv", "run", "ruff", "server" } })
+
       -- setup_server("pylyzer", { cmd = { "rye", "run", "pylyzer", "--server" } })
       setup_server("rust_analyzer", {})
       setup_server("gopls", {
