@@ -13,7 +13,7 @@ return {
 					{ text = { '%C' }, click = 'v:lua.ScFa' },
 					{ text = { '%s' }, click = 'v:lua.ScSa' },
 					{
-						text = { ' ', builtin.lnumfunc, ' █ ' }, --builtin.lnumfunc, " ┃ " }, -- ·" },
+						text = { '', builtin.lnumfunc, " ┃ " }, --' █ ' }, --builtin.lnumfunc,  }, -- ·" },
 						condition = { true, builtin.not_empty },
 						click = 'v:lua.ScLa',
 					},

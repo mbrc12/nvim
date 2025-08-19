@@ -21,6 +21,7 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '· ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split' -- Preview substitutions live, as you type!
 vim.opt.cursorline = true    -- Show which line your cursor is on
+vim.opt.expandtab = true    -- Use spaces instead of tabs
 vim.opt.numberwidth = 3
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true

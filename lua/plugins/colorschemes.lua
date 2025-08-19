@@ -1,5 +1,12 @@
 return {
 	{
+		"wtfox/jellybeans.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {}, -- Optional
+	},
+
+	{
 		'sainnhe/gruvbox-material',
 		lazy = "VeryLazy",
 		config = function()
@@ -8,6 +15,14 @@ return {
 			vim.g.gruvbox_material_enable_bold = '1'
 			vim.g.gruvbox_material_dim_inactive_windows = '1'
 		end
+	},
+
+	{
+		'loctvl842/monokai-pro.nvim'
+	},
+
+	{
+		"vague2k/vague.nvim",
 	},
 
 	{

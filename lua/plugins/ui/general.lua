@@ -26,7 +26,7 @@ return {
 		version = "*",
 		config = true,
 		opts = {
-			open_mapping = "<D-e>",
+			open_mapping = "<F7>",
 			direction = "horizontal"
 		},
 	},

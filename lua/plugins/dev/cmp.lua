@@ -94,11 +94,18 @@ return {
 						-- max_height = 20,
 					},
 				},
+
 				-- For an understanding of why these mappings were
 				-- chosen, you will need to read `:help ins-completion`
 				--
 				-- No, but seriously. Please read `:help ins-completion`, it is really good!
-				mapping = cmp.mapping.preset.insert {
+				-- mapping = cmp.mapping.preset.insert {
+				-- 	['<CR>'] = cmp.mapping.confirm {},
+				-- 	['<Tab>'] = cmp.mapping.select_next_item(),
+				-- 	['<S-Tab>'] = cmp.mapping.select_prev_item(),
+				-- },
+				-- See https://www.reddit.com/r/neovim/comments/10r7l63/how_to_stop_nvimcmp_from_using_my_arrow_keys/
+				mapping = {
 					['<CR>'] = cmp.mapping.confirm {},
 					['<Tab>'] = cmp.mapping.select_next_item(),
 					['<S-Tab>'] = cmp.mapping.select_prev_item(),

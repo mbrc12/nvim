@@ -40,6 +40,8 @@ return {
 				ltex_plus = {
 					filetypes = { 'latex', 'tex', 'bib', 'text' },
 				},
+
+				clangd = {}
 			}
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -64,8 +66,8 @@ return {
 					map('gd', require('telescope.builtin').lsp_definitions, 'goto definition')
 					map('gr', require('telescope.builtin').lsp_references, 'goto references')
 					map('gI', require('telescope.builtin').lsp_implementations, 'goto implementation')
-					map('<leader>rr', vim.lsp.buf.rename, 'rename')
-					map('<leader>?', vim.lsp.buf.code_action, 'code action')
+					map('<f2>', vim.lsp.buf.rename, 'rename')
+					map('<f4>', vim.lsp.buf.code_action, 'code action')
 					map('K', vim.lsp.buf.hover, 'Hover Documentation')
 					map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 

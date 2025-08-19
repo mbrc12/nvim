@@ -49,7 +49,7 @@ return {
 
 			-- See `:help telescope.builtin`
 			local builtin = require 'telescope.builtin'
-			vim.keymap.set('n', '<leader>s', builtin.live_grep, { desc = 'live grep' })
+			vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = 'live grep' })
 			vim.keymap.set('n', '<leader>fc', builtin.current_buffer_fuzzy_find,
 				{ desc = 'fuzzy search in current file' })
 			vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })

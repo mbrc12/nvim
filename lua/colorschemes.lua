@@ -1,4 +1,7 @@
-local night_scheme = "gruvbox-material"
+-- local night_scheme = "gruvbox-material"
+local night_scheme = "jellybeans-muted"
+-- local night_scheme = "monokai-pro"
+-- local night_scheme = "vague"
 -- local night_scheme = "nordic"
 local day_scheme = "dayfox"
 
