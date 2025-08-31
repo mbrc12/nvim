@@ -1,6 +1,6 @@
 local project_rooter_config = {
 	patterns = { '.git', 'CMakeLists.txt', 'Makefile', 'package.json', 'Cargo.toml', 'pyproject.toml', 'go.mod', 'main.tex', '.root' },
-	level_limit = 5, -- how many levels to go up
+	level_limit = 10, -- how many levels to go up
 }
 
 local function ProjectRooter()

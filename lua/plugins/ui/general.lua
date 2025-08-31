@@ -36,4 +36,9 @@ return {
 		opts = {
 		}
 	},
+
+    {
+        'stevearc/overseer.nvim',
+        opts = {},
+    }
 }

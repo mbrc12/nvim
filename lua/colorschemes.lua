@@ -3,7 +3,8 @@ local night_scheme = "jellybeans-muted"
 -- local night_scheme = "monokai-pro"
 -- local night_scheme = "vague"
 -- local night_scheme = "nordic"
-local day_scheme = "dayfox"
+-- local day_scheme = "dayfox"
+local day_scheme = "jellybeans-light"
 
 function PostColorscheme()
 	local highlight = vim.api.nvim_set_hl

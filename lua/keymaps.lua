@@ -7,6 +7,8 @@ return {
 		wk.add({
 			{ '<Esc><Esc>', '<C-\\><C-n>',                    desc = 'Exit terminal mode',              mode = { 't' } },
 
+            { 's',       'za',                            desc = 'toggle fold', mode = { 'n' } },
+
 			{ '<Esc>',      '<cmd>nohlsearch<CR>',            desc = "remove highlights" },
 
 			{ '<leader>e',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },
@@ -14,7 +16,7 @@ return {
 			{ '<leader>w',  '<C-w>',                          desc = 'Window', mode = {'n'}},
 			-- { '<leader>q',      "<C-\\><C-n><C-w>w",							desc = "Next window", mode = {'t', 'n'}},
 
-			{ '<D-q>',      ':bd<CR>',				desc='Buffer delete', mode = {'n' }},
+			-- { '<D-q>',      ':bd<CR>',				desc='Buffer delete', mode = {'n' }},
 
 			{ '<leader>s',      ":w<CR>",                         desc = 'Save' },
 			-- { '<leader>s',      "<Esc>:w<CR>",                    desc = 'Save',                            mode = 'i' },

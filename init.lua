@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true       -- Set to true if you have a Nerd Font installed and selected in the terminal
--- vim.g.barbar_auto_setup = false
+vim.g.barbar_auto_setup = false
 vim.opt.number = true             -- Make line numbers default
 vim.opt.mouse = 'a'               -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.showmode = false          -- Don't show the mode, since it's already in the status line
@@ -83,7 +83,12 @@ for _, plugin_type in ipairs(plugin_collection) do
   end
 end
 
+
 require("lazy").setup(configs, {})
+
+local highlight = vim.api.nvim_set_hl
+-- highlight(0, 'BufferDefaultCurrent', { link = 'QuickFixLine' })
+highlight(0, 'BufferDefaultCurrent', { bg = '#3a3f4b', bold = true })
 
 require("textwidth").setup()
 require("rooter").setup()
