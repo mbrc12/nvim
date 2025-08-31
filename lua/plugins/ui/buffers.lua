@@ -33,7 +33,9 @@ return {
                 insert_at_end = true,
                 icons = {
                     button = '',
+                    pinned = {button = '★', filename = true},
                 },
+
             }
 
         end,
@@ -43,7 +45,9 @@ return {
                 { '<D->>', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
                 { '<D-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
                 { '<D-q>', '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
+                { '<leader>bp', '<Cmd>BufferPin<CR>',        desc = 'pin buffer' },
             }
+
 
             for i = 1, 10 do
                 table.insert(keys,
