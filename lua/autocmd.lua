@@ -23,18 +23,22 @@ return {
             end,
         })
 
-        vim.api.nvim_create_autocmd('BufEnter', {
-            pattern = { '*' }, -- after apprentice loads specifically
+        vim.api.nvim_create_autocmd('ColorScheme', { -- after TabEnter
+            pattern = { '*' },
+            desc = 'Set buffer background for current buffer',
             callback = function()
                 local bg_color = '#2e2e2e'
 
-                local sign_past = vim.api.nvim_get_hl(0, { name = 'BufferDefaultCurrentSign' })
-                sign_past.bg = bg_color
-                vim.api.nvim_set_hl(0, 'BufferDefaultCurrentSign', sign_past)
+                local function replacer(name)
+                    local past = vim.api.nvim_get_hl(0, { name = name, link = false })
+                    past.bg = bg_color
+                    past.default = true
+                    vim.api.nvim_set_hl(0, name, past)
+                end
 
-                local current_past = vim.api.nvim_get_hl(0, { name = 'BufferDefaultCurrent' })
-                current_past.bg = bg_color
-                vim.api.nvim_set_hl(0, 'BufferDefaultCurrent', current_past)
+                replacer('BufferCurrent')
+                replacer('BufferCurrentIcon')
+                replacer('BufferCurrentSign')
             end
         })
     end

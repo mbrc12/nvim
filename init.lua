@@ -86,14 +86,10 @@ end
 
 require("lazy").setup(configs, {})
 
-local highlight = vim.api.nvim_set_hl
--- highlight(0, 'BufferDefaultCurrent', { link = 'QuickFixLine' })
-highlight(0, 'BufferDefaultCurrent', { bg = '#3a3f4b', bold = true })
-
 require("textwidth").setup()
 require("rooter").setup()
-require("colorschemes").setup()
 require("autocmd").setup()
+require("colorschemes").setup()
 require("keymaps").setup()
 
 
