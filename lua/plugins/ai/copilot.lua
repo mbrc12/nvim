@@ -16,9 +16,9 @@ return {
 				suggestion = {
 					auto_trigger = true,
 					keymap = {
-						accept = "<D-=>",
-						accept_word = "<D-\\>",
-						prev = "<D->>",
+						accept = "<M-=>",
+						accept_word = "<M-\\>",
+						-- prev = "<M->>",
 					},
 				},
 				filetypes = {

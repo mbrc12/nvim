@@ -42,16 +42,17 @@ return {
 
         keys = (function()
             local keys = {
-                { '<D->>', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
-                { '<D-<>', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
-                { '<D-q>', '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
+                { '<leader>>', '<Cmd>BufferMoveNext<CR>',     desc = 'buffer move to next' },
+                { '<leader><', '<Cmd>BufferMovePrevious<CR>', desc = 'buffer move to previous' },
+                -- { '<D-q>', '<Cmd>BufferWipeout<CR>',      desc = 'close buffer' },
+                { '<C-q>', '<Cmd>BufferClose<CR>',      desc = 'close buffer' },
                 { '<leader>bp', '<Cmd>BufferPin<CR>',        desc = 'pin buffer' },
             }
 
 
-            for i = 1, 10 do
+            for i = 1, 9 do
                 table.insert(keys,
-                    { '<D-' .. i .. '>', '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 't', 'n' } })
+                    { '<leader>' .. i, '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 't', 'n' } })
             end
 
             return keys

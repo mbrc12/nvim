@@ -13,7 +13,7 @@ return {
         cmd = "Trouble",
         keys = {
             {
-                "<leader>q",
+                "<F1>",
                 "<cmd>Trouble diagnostics toggle<cr>",
                 desc = "Diagnostics (Trouble)",
             },
@@ -78,6 +78,7 @@ return {
             --   }
             -- end,
             formatters_by_ft = {
+                -- typescript = { 'prettier' },
                 lua = { 'stylua' },
                 gdscript = { 'gdformat' },
             },
