@@ -48,15 +48,15 @@ return {
                         local MAX_LABEL_WIDTH = 60
                         local ELLIPSIS_CHAR = '…'
 
-                        -- local function fixed_width(content)
-                        --   local result = ''
-                        --   if #content > MAX_LABEL_WIDTH then
-                        --     result = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
-                        --   else
-                        --     result = content
-                        --   end
-                        --   return result
-                        -- end
+                        local function fixed_width(content)
+                          local result = ''
+                          if #content > MAX_LABEL_WIDTH then
+                            result = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
+                          else
+                            result = content
+                          end
+                          return result
+                        end
 
                         local menu_icon = {
                             nvim_lsp = 'λ ',
@@ -66,7 +66,7 @@ return {
                             path = '🖫 ',
                         }
 
-                        -- item.abbr = fixed_width(item.abbr)
+                        item.abbr = fixed_width(item.abbr)
 
                         item.menu = menu_icon[entry.source.name]
                         item.kind_hl_group = 'TSString'

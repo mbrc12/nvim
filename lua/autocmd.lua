@@ -3,6 +3,15 @@ return {
         -- Highlight when yanking (copying) text
         --  Try it with `yap` in normal mode
         --  See `:help vim.highlight.on_yank()`
+        vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+            pattern = { '*.hlsl' },
+            desc = 'Set filetype for HLSL files',
+            group = vim.api.nvim_create_augroup('personal-hlsl', { clear = true }),
+            callback = function()
+                vim.bo.filetype = 'hlsl'
+            end,
+        })
+
         vim.api.nvim_create_autocmd('TextYankPost', {
             desc = 'Highlight when yanking (copying) text',
             group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
