@@ -9,6 +9,8 @@ return {
 
             { 's',       'za',                            desc = 'toggle fold', mode = { 'n' } },
 
+            { '<leader>h', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, desc = 'Toggle [H]ints' },
+
 			{ '<Esc>',      '<cmd>nohlsearch<CR>',            desc = "remove highlights" },
 
 			{ '<leader>e',  vim.diagnostic.open_float,        desc = 'Show diagnostic [E]rror messages' },

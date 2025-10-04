@@ -53,8 +53,8 @@ return {
 			vim.keymap.set('n', '<leader>fc', builtin.current_buffer_fuzzy_find,
 				{ desc = 'fuzzy search in current file' })
 			vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
-			vim.keymap.set('n', '<F9>', builtin.diagnostics, { desc = 'search diagnostics' })
-			vim.keymap.set('n', '<F12>', builtin.resume, { desc = 'telescope resume' })
+			vim.keymap.set('n', '<F6>', builtin.diagnostics, { desc = 'search diagnostics' })
+			vim.keymap.set('n', '<F8>', builtin.resume, { desc = 'telescope resume' })
 			-- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 			-- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 

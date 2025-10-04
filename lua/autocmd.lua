@@ -12,6 +12,15 @@ return {
             end,
         })
 
+        vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+            pattern = { '*.tsj', '*.tmj' },
+            desc = 'Set filetype for JSON files from tiled',
+            group = vim.api.nvim_create_augroup('personal-json', { clear = true }),
+            callback = function()
+                vim.bo.filetype = 'json'
+            end,
+        })
+
         vim.api.nvim_create_autocmd('TextYankPost', {
             desc = 'Highlight when yanking (copying) text',
             group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),

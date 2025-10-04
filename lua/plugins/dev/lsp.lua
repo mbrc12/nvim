@@ -20,6 +20,8 @@ return {
                     cmd = { 'uv', 'run', 'ruff', 'server' },
                 },
 
+                -- emmylua_ls = default,
+
                 lua_ls = default,
 
                 gdscript = default,
@@ -53,6 +55,10 @@ return {
                 jdtls = {},
 
                 ts_ls = {},
+
+                csharp_ls = {},
+
+                jsonls = {},
             }
 
             vim.api.nvim_create_autocmd("LspAttach", {

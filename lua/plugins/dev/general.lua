@@ -14,9 +14,14 @@ return {
         keys = {
             {
                 "<F1>",
-                "<cmd>Trouble diagnostics toggle<cr>",
-                desc = "Diagnostics (Trouble)",
+                "<cmd>Trouble quickfix toggle<cr>",
+                desc = "Quickfix (Trouble)",
             },
+            -- {
+            --     "<F2>",
+            --     "<cmd>Trouble quickfix toggle<cr>",
+            --     desc = "Quickfix (Trouble)",
+            -- },
         }
     },
 
