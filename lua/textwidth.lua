@@ -8,9 +8,9 @@ return {
 		})
 
 		vim.api.nvim_create_autocmd({ 'BufEnter' }, {
-			pattern = { '*.md' },
+			pattern = { '*.md', '*.tex', },
 			callback = function()
-				vim.cmd [[setlocal textwidth=120]]
+				vim.cmd [[setlocal textwidth=80]]
 			end,
 		})
 	end
