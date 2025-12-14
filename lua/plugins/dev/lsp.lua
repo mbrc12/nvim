@@ -59,6 +59,8 @@ return {
                 csharp_ls = {},
 
                 jsonls = {},
+
+                fennel_ls = {},
             }
 
             vim.api.nvim_create_autocmd("LspAttach", {

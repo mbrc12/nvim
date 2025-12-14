@@ -65,6 +65,7 @@ local plugin_collection = {
   "dev.lsp",
   "dev.treesitter",
   "dev.latex",
+  "dev.lean",
 
   "ui.general",
   "ui.buffers",
