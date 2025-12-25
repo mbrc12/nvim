@@ -53,7 +53,7 @@ return {
             for i = 1, 9 do
                 table.insert(keys,
                     -- { '<M-' .. i .. '>', '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 't', 'n' } })
-                    { '' .. i, '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 't', 'n' } })
+                    { '' .. i, '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 'n' } })
                     -- { '<Esc>]' .. i, '<Cmd>BufferGoto ' .. i .. '<CR>', 'change tabs', mode = { 't', 'n' } })
             end
 

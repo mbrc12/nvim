@@ -19,6 +19,10 @@ return {
 		'MeanderingProgrammer/render-markdown.nvim'
 	},
 
+    {
+        'Glench/Vim-Jinja2-Syntax'
+    },
+
 	'mhinz/vim-startify',
 
 	{

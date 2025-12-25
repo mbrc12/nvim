@@ -12,13 +12,13 @@ return {
             local servers = {
                 rust_analyzer = default,
 
-                pyright = {
-                    cmd = { 'uv', 'run', 'pyright-langserver', '--stdio' },
-                },
+                ruby_lsp = default,
 
-                ruff = {
-                    cmd = { 'uv', 'run', 'ruff', 'server' },
-                },
+                -- pyright = {
+                --     cmd = { 'uv', 'run', 'pyright-langserver', '--stdio' },
+                -- },
+                ty = default,
+                ruff = default,
 
                 -- emmylua_ls = default,
 
@@ -61,6 +61,8 @@ return {
                 jsonls = {},
 
                 fennel_ls = {},
+
+                clojure_lsp = {},
             }
 
             vim.api.nvim_create_autocmd("LspAttach", {
