@@ -3,8 +3,8 @@ local night_scheme = "gruvbox-material"
 -- local night_scheme = "monokai-pro"
 -- local night_scheme = "vague"
 -- local night_scheme = "nordic"
--- local day_scheme = "dayfox"
-local day_scheme = "jellybeans-light"
+local day_scheme = "dawnfox"
+-- local day_scheme = "jellybeans-light"
 
 function PostColorscheme()
 	local highlight = vim.api.nvim_set_hl
@@ -26,8 +26,8 @@ end
 
 return {
 	setup = function()
-		vim.opt.background = 'dark'
-		vim.cmd.colorscheme(night_scheme)
+		vim.opt.background = 'light'
+		vim.cmd.colorscheme(day_scheme)
 		PostColorscheme()
 
 		local wk = require 'which-key'
