@@ -1,8 +1,8 @@
 local colorscheme = "dawnfox"
 
-local function dbg(t)
-    print(vim.inspect(t))
-end
+-- local function dbg(t)
+--     print(vim.inspect(t))
+-- end
 
 local function merge_into(a, b)
     for k, v in pairs(b) do
@@ -296,6 +296,7 @@ vim.pack.add {
                 implementation = "lua" -- please dont make me compile rust
             },
             sources = {
+                --- omni contains vimtex completions
                 default = { 'lsp', 'snippets', 'omni', 'buffer', 'path' },
             },
             snippets = { preset = 'luasnip' },
@@ -388,9 +389,9 @@ key("n", "<leader>tv", "<cmd>:VimtexView<CR>", { desc = 'vimtex view' })
 --- lsp
 key("n", "<leader>h", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
     { desc = "Toggle hints" })
-key('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'goto definition' })
-key('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'goto references' })
-key('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = 'goto implementation' })
+key('n', 'gd', telescope_builtin.lsp_definitions, { desc = 'goto definition' })
+key('n', 'gr', telescope_builtin.lsp_references, { desc = 'goto references' })
+key('n', 'gI', telescope_builtin.lsp_implementations, { desc = 'goto implementation' })
 key('n', '<F2>', vim.lsp.buf.rename, { desc = 'rename' })
 key('n', '<F3>', vim.lsp.buf.format, { desc = 'format document' })
 key('n', '<F4>', vim.lsp.buf.code_action, { desc = 'code action' })
