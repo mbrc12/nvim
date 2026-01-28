@@ -4,9 +4,17 @@
       "rev": "e30b7f2008e52442154b66f7c519bfd2f1e32acb",
       "src": "https://github.com/numToStr/Comment.nvim"
     },
+    "LuaSnip": {
+      "rev": "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
+      "src": "https://github.com/L3MON4D3/LuaSnip"
+    },
     "barbar.nvim": {
       "rev": "539d73def39c9172b4d4d769f14090e08f37b29d",
       "src": "https://github.com/romgrk/barbar.nvim"
+    },
+    "blink.cmp": {
+      "rev": "b137f63d89d0285ca76eed12e1923220e0aff8c1",
+      "src": "https://github.com/saghen/blink.cmp"
     },
     "copilot-lualine": {
       "rev": "222e90bd8dcdf16ca1efc4e784416afb5f011c31",

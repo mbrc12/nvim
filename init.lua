@@ -18,6 +18,7 @@ merge_into(vim.g, {
 })
 
 merge_into(vim.opt, {
+    winborder = "bold",
     termguicolors = true,
 
     number = true,
@@ -281,8 +282,51 @@ vim.pack.add {
         -- vim.g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
     end),
 
-    pack('j-hui/fidget.nvim', function()
-        require('fidget').setup()
+    pack('L3MON4D3/LuaSnip', function()
+        local luasnip = require 'luasnip'
+        luasnip.config.setup {}
+
+        -- require('luasnip.loaders.from_snipmate').lazy_load()
+        require('luasnip.loaders.from_lua').load({paths = "/Users/subwave/.config/nvim/snippets"})
+    end),
+
+    pack('saghen/blink.cmp', function()
+        require('blink.cmp').setup {
+            fuzzy = {
+                implementation = "lua" -- please dont make me compile rust
+            },
+            sources = {
+                default = { 'lsp', 'snippets', 'omni', 'buffer', 'path' },
+            },
+            snippets = { preset = 'luasnip' },
+            signature = { enabled = true },
+            completion = {
+                keyword = { range = 'full' },
+                accept = { auto_brackets = { enabled = false }, },
+
+                list = { selection = { preselect = false, auto_insert = true } },
+                menu = {
+                    auto_show = true,
+                    draw = {
+                        columns = {
+                            { "kind_icon", gap = 1 },
+                            { "label",     "label_description", gap = 1 },
+                            { "kind" },
+                        },
+                    }
+                },
+                documentation = { auto_show = true, auto_show_delay_ms = 500 },
+                ghost_text = { enabled = true },
+            },
+            keymap = {
+                preset = "none",
+                ["<Up>"] = { "select_prev", "fallback" },
+                ["<Down>"] = { "select_next", "fallback" },
+                ["<Tab>"] = { "select_next", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+            }
+        }
     end),
 
     pack("neovim/nvim-lspconfig", function()
@@ -293,15 +337,19 @@ vim.pack.add {
             ruff = {},
             gdscript = {},
         }
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
+        local blink = require("blink.cmp")
 
         for name, config in pairs(servers) do
-            if config ~= {} then
-                vim.lsp.config(name, config)
-            end
+            config = config or {}
+            config.capabilities = blink.get_lsp_capabilities(config.capabilities or {})
+            vim.lsp.config(name, config)
             vim.lsp.enable(name)
         end
+    end),
+
+    pack('j-hui/fidget.nvim', function()
+        require('fidget').setup()
     end),
 }
 
@@ -356,8 +404,12 @@ Tools = {
         local highlight = vim.api.nvim_set_hl
         highlight(0, 'FloatBorder', { link = 'Normal' })
         highlight(0, 'NormalFloat', { link = 'Normal' })
+        highlight(0, 'BlinkCmpKind', { link = 'Normal' })
+        highlight(0, 'BlinkCmpMenuBorder', { link = 'Normal' })
+        highlight(0, 'BlinkCmpMenu', { link = 'Normal' })
+        highlight(0, 'BlinkCmpDocBorder', { link = 'Normal' })
+        highlight(0, 'BlinkCmpDoc', { link = 'Normal' })
         -- highlight(0, 'RenderMarkdownCode')
-        vim.o.winborder = 'bold'
         local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
         vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
             opts = opts or {}
