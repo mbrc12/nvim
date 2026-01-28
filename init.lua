@@ -1,5 +1,9 @@
 local colorscheme = "dawnfox"
 
+local function dbg(t)
+    print(vim.inspect(t))
+end
+
 local function merge_into(a, b)
     for k, v in pairs(b) do
         a[k] = v
@@ -158,7 +162,7 @@ vim.pack.add {
     pack('MeanderingProgrammer/render-markdown.nvim'),
 
     pack('akinsho/toggleterm.nvim', function()
-        require("toggleterm").setup{
+        require("toggleterm").setup {
             version = "*",
             config = true,
             opts = {
@@ -200,7 +204,7 @@ vim.pack.add {
             insert_at_end = true,
             icons = {
                 button = '',
-                pinned = {button = '★', filename = true},
+                pinned = { button = '★', filename = true },
             },
         }
     end),
@@ -236,8 +240,8 @@ vim.pack.add {
                 vim.treesitter.start()
                 -- set foldmethods and open all folds by default
                 vim.cmd [[
-                    setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
                     setlocal foldmethod=expr
+                    setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
                     normal! zR
                 ]]
             end,
@@ -275,10 +279,32 @@ vim.pack.add {
 
         -- vim.g.vimtex_view_general_viewer = 'okular'
         -- vim.g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
-    end)
+    end),
+
+    pack('j-hui/fidget.nvim', function()
+        require('fidget').setup()
+    end),
+
+    pack("neovim/nvim-lspconfig", function()
+        local servers = {
+            lua_ls = {},
+            ltex_ls = { filetypes = { 'latex', 'tex', 'bib', 'text' } },
+            ty = {},
+            ruff = {},
+            gdscript = {},
+        }
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+
+        for name, config in pairs(servers) do
+            if config ~= {} then
+                vim.lsp.config(name, config)
+            end
+            vim.lsp.enable(name)
+        end
+    end),
 }
 
-vim.cmd("colorscheme " .. colorscheme)
 setup_packs()
 
 local telescope_builtin = require 'telescope.builtin'
@@ -288,31 +314,59 @@ key("v", ";", "gc", { desc = "visual mode comment", remap = true })
 key("n", ";", "gccj", { desc = "normal mode comment", remap = true })
 key("n", "s", "za", { desc = "toggle fold" })
 key("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "remove highlights" })
-key("n", "<leader>h", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = "Toggle hints" })
 key("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic error messages" })
 key("n", "<leader>w", "<C-w>", { desc = "Window" })
 key("n", "<leader>s", ":w<CR>", { desc = "Save" })
 key("n", "<leader>if", ":e ~/.config/nvim/init.lua<CR>", { desc = "edit config" })
 key("n", "<leader>d", "<cmd>NvimTreeToggle<CR>", { desc = "Nvim-tree toggle" })
+--- telescope
 key("n", "<leader>/", telescope_builtin.live_grep, { desc = "live grep" })
 key("n", "<leader>fc", telescope_builtin.current_buffer_fuzzy_find, { desc = "fuzzy search in current file" })
 key("n", "<leader>f", telescope_builtin.find_files, { desc = "find files" })
 key("n", "<F6>", telescope_builtin.diagnostics, { desc = "search diagnostics" })
-key({"n", "t"}, "<F7>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
+key({ "n", "t" }, "<F7>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
 key("n", "<F8>", telescope_builtin.resume, { desc = "telescope resume" })
-key("n", "<leader>>", "<Cmd>BufferNext<CR>",    { desc = 'buffer next' })
-key("n", "<leader><", "<Cmd>BufferPrevious<CR>",{ desc = 'buffer previous' })
-key("n", "<leader>q", "<Cmd>BufferClose<CR>",   { desc = 'close buffer' })
-key("n", "<leader>bp", "<Cmd>BufferPin<CR>",     { desc = 'pin buffer' })
+--- barbar
+key("n", "<leader>>", "<Cmd>BufferNext<CR>", { desc = 'buffer next' })
+key("n", "<leader><", "<Cmd>BufferPrevious<CR>", { desc = 'buffer previous' })
+key("n", "<leader>q", "<Cmd>BufferClose<CR>", { desc = 'close buffer' })
+key("n", "<leader>bp", "<Cmd>BufferPin<CR>", { desc = 'pin buffer' })
 for i = 1, 9 do
     key("n", "<leader>" .. i, "<Cmd>BufferGoto " .. i .. "<CR>", { desc = 'go to buffer ' .. i })
 end
+--- vimtex
 key("n", "<leader>tc", "<cmd>:VimtexCompile<CR>", { desc = 'vimtex compile' })
-key("n", "<leader>tv", "<cmd>:VimtexView<CR>",    { desc = 'vimtex view' })
+key("n", "<leader>tv", "<cmd>:VimtexView<CR>", { desc = 'vimtex view' })
+--- lsp
+key("n", "<leader>h", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
+    { desc = "Toggle hints" })
+key('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'goto definition' })
+key('n', 'gr', require('telescope.builtin').lsp_references, { desc = 'goto references' })
+key('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = 'goto implementation' })
+key('n', '<F2>', vim.lsp.buf.rename, { desc = 'rename' })
+key('n', '<F3>', vim.lsp.buf.format, { desc = 'format document' })
+key('n', '<F4>', vim.lsp.buf.code_action, { desc = 'code action' })
+key('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
+key('n', 'gD', vim.lsp.buf.declaration, { desc = 'goto declaration' })
 
---- Some handcrafted tools
+--- Some handcrafted functionality
 
-local tools = {
+Tools = {
+    fix_float_appearance = function()
+        local highlight = vim.api.nvim_set_hl
+        highlight(0, 'FloatBorder', { link = 'Normal' })
+        highlight(0, 'NormalFloat', { link = 'Normal' })
+        -- highlight(0, 'RenderMarkdownCode')
+        vim.o.winborder = 'bold'
+        local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+        vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
+            opts = opts or {}
+            opts.max_width = 60
+            opts.max_height = 20
+            return orig_util_open_floating_preview(contents, syntax, opts, ...)
+        end
+    end,
+
     rooter = function()
         local project_rooter_config = {
             patterns = { '.git', 'CMakeLists.txt', 'Makefile', 'package.json', 'Cargo.toml', 'pyproject.toml', 'go.mod', 'main.tex', '.root' },
@@ -367,9 +421,10 @@ local tools = {
 
         key("n", "<leader>pp", ProjectRooter, { desc = "Project rooter" })
     end,
+
     format = function()
         key("n", "'f", "ms{gq}'s", { desc = 'Format paragraph' })
-        key("v", "'f", "gq",       { desc = 'Format paragraph' })
+        key("v", "'f", "gq", { desc = 'Format paragraph' })
 
         vim.api.nvim_create_autocmd({ 'BufEnter' }, {
             pattern = { '*.md', '*.tex', },
@@ -380,6 +435,7 @@ local tools = {
     end
 }
 
-for _, tool_setup in pairs(tools) do
-    tool_setup()
-end
+Tools.rooter()
+Tools.format()
+vim.cmd("colorscheme " .. colorscheme)
+Tools.fix_float_appearance()

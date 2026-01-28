@@ -16,6 +16,10 @@
       "rev": "2ede0808fa8dace39ea2a0f09b7bc6583655b730",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
+    "fidget.nvim": {
+      "rev": "7fa433a83118a70fe24c1ce88d5f0bd3453c0970",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "abf82a65f185bd54adc0679f74b7d6e1ada690c9",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -27,6 +31,10 @@
     "nightfox.nvim": {
       "rev": "ba47d4b4c5ec308718641ba7402c143836f35aa9",
       "src": "https://github.com/EdenEast/nightfox.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "ff9c0af8f9b2097fdd2695058db7e04c193908aa",
+      "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-tree.lua": {
       "rev": "c07ce43527e5f0242121f4eb1feb7ac0ecea8275",
