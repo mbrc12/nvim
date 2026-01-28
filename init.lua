@@ -87,6 +87,9 @@ vim.pack.add {
     end),
 
     pack('nvim-tree/nvim-web-devicons'),
+    pack("folke/trouble.nvim", function()
+        require("trouble").setup()
+    end),
 
     pack("nvim-lua/plenary.nvim"),
     pack('nvim-telescope/telescope-ui-select.nvim'),
@@ -362,6 +365,7 @@ key("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 key("v", ";", "gc", { desc = "visual mode comment", remap = true })
 key("n", ";", "gccj", { desc = "normal mode comment", remap = true })
 key("n", "s", "za", { desc = "toggle fold" })
+key("n", "S", "zR", { desc = "open all folds" })
 key("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "remove highlights" })
 key("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic error messages" })
 key("n", "<leader>w", "<C-w>", { desc = "Window" })
@@ -397,6 +401,8 @@ key('n', '<F3>', vim.lsp.buf.format, { desc = 'format document' })
 key('n', '<F4>', vim.lsp.buf.code_action, { desc = 'code action' })
 key('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 key('n', 'gD', vim.lsp.buf.declaration, { desc = 'goto declaration' })
+---  trouble
+key("n", "<F1>", "<cmd>Trouble quickfix toggle<cr>", { desc = "Quickfix (Trouble)" })
 
 --- Some handcrafted functionality
 

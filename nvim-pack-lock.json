@@ -84,6 +84,10 @@
       "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
       "src": "https://github.com/akinsho/toggleterm.nvim"
     },
+    "trouble.nvim": {
+      "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
+      "src": "https://github.com/folke/trouble.nvim"
+    },
     "vim-startify": {
       "rev": "4e089dffdad46f3f5593f34362d530e8fe823dcf",
       "src": "https://github.com/mhinz/vim-startify"
