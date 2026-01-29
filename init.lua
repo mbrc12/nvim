@@ -336,7 +336,7 @@ vim.pack.add {
     pack("neovim/nvim-lspconfig", function()
         local servers = {
             lua_ls = {},
-            ltex_ls = { filetypes = { 'latex', 'tex', 'bib', 'text' } },
+            ltex_plus = { filetypes = { 'tex', 'bib', 'text' } },
             ty = {},
             ruff = {},
             gdscript = {},
@@ -380,8 +380,8 @@ key("n", "<F6>", telescope_builtin.diagnostics, { desc = "search diagnostics" })
 key({ "n", "t" }, "<F7>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
 key("n", "<F8>", telescope_builtin.resume, { desc = "telescope resume" })
 --- barbar
-key("n", "<leader>>", "<Cmd>BufferNext<CR>", { desc = 'buffer next' })
-key("n", "<leader><", "<Cmd>BufferPrevious<CR>", { desc = 'buffer previous' })
+key("n", "<leader>>", "<Cmd>BufferMoveNext<CR>", { desc = 'buffer move next' })
+key("n", "<leader><", "<Cmd>BufferMovePrevious<CR>", { desc = 'buffer move previous' })
 key("n", "<leader>q", "<Cmd>BufferClose<CR>", { desc = 'close buffer' })
 key("n", "<leader>bp", "<Cmd>BufferPin<CR>", { desc = 'pin buffer' })
 for i = 1, 9 do
