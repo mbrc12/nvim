@@ -11,6 +11,7 @@ local function merge_into(a, b)
 end
 
 local key = vim.keymap.set
+local highlight = vim.api.nvim_set_hl
 
 merge_into(vim.g, {
     mapleader = ' ',
@@ -66,6 +67,8 @@ local function setup_packs()
 end
 
 vim.pack.add {
+    pack("rose-pine/neovim"),
+
     pack("EdenEast/nightfox.nvim", function()
         require('nightfox').setup({
             options = {
@@ -109,7 +112,7 @@ vim.pack.add {
 
         -- See `:help telescope.builtin`
     end),
-
+    pack('mhinz/vim-startify'),
     pack('AndreM222/copilot-lualine'),
     pack('nvim-lualine/lualine.nvim', function()
         require('lualine').setup {
@@ -145,9 +148,8 @@ vim.pack.add {
             suggestion = {
                 auto_trigger = true,
                 keymap = {
-                    accept = "<M-l>",
+                    accept = "<M-/>",
                     accept_word = "<M-\\>",
-                    -- prev = "<M->>",
                 },
             },
             filetypes = {
@@ -203,6 +205,10 @@ vim.pack.add {
     end),
 
     pack('romgrk/barbar.nvim', function()
+        vim.g.barbar_auto_setup = false
+
+        highlight(0, 'BufferCurrent', { bold = true, underline = true })
+
         require('barbar').setup {
             auto_hide = 0,
             insert_at_end = true,
@@ -210,6 +216,7 @@ vim.pack.add {
                 button = '',
                 pinned = { button = '★', filename = true },
             },
+            highlight_visible = true,
         }
     end),
 
@@ -235,11 +242,23 @@ vim.pack.add {
     end),
 
     pack("nvim-treesitter/nvim-treesitter", function()
-        require("nvim-treesitter").install({
-            "latex", "lua", "python"
-        })
+        local langs = {
+            tex = "latex",
+            lua = "lua",
+            python = "python",
+            json = "json",
+        }
+
+        local install_names = {}
+        local filetypes = {}
+        for ft, name in pairs(langs) do
+            table.insert(install_names, name)
+            table.insert(filetypes, ft)
+        end
+
+        require("nvim-treesitter").install(install_names)
         vim.api.nvim_create_autocmd("FileType", {
-            pattern = { "tex", "python", "lua" },
+            pattern = filetypes,
             callback = function()
                 vim.treesitter.start()
                 -- set foldmethods and open all folds by default
@@ -374,7 +393,7 @@ key("n", "<leader>if", ":e ~/.config/nvim/init.lua<CR>", { desc = "edit config" 
 key("n", "<leader>d", "<cmd>NvimTreeToggle<CR>", { desc = "Nvim-tree toggle" })
 --- telescope
 key("n", "<leader>/", telescope_builtin.live_grep, { desc = "live grep" })
-key("n", "<leader>fc", telescope_builtin.current_buffer_fuzzy_find, { desc = "fuzzy search in current file" })
+-- key("n", "<leader>fc", telescope_builtin.current_buffer_fuzzy_find, { desc = "fuzzy search in current file" })
 key("n", "<leader>f", telescope_builtin.find_files, { desc = "find files" })
 key("n", "<F6>", telescope_builtin.diagnostics, { desc = "search diagnostics" })
 key({ "n", "t" }, "<F7>", "<cmd>ToggleTerm<CR>", { desc = "toggle terminal" })
@@ -408,7 +427,6 @@ key("n", "<F1>", "<cmd>Trouble quickfix toggle<cr>", { desc = "Quickfix (Trouble
 
 Tools = {
     fix_float_appearance = function()
-        local highlight = vim.api.nvim_set_hl
         highlight(0, 'FloatBorder', { link = 'Normal' })
         highlight(0, 'NormalFloat', { link = 'Normal' })
         highlight(0, 'BlinkCmpKind', { link = 'Normal' })
@@ -416,11 +434,10 @@ Tools = {
         highlight(0, 'BlinkCmpMenu', { link = 'Normal' })
         highlight(0, 'BlinkCmpDocBorder', { link = 'Normal' })
         highlight(0, 'BlinkCmpDoc', { link = 'Normal' })
-        -- highlight(0, 'RenderMarkdownCode')
         local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
         vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
             opts = opts or {}
-            opts.max_width = 60
+            opts.max_width = 80
             opts.max_height = 20
             return orig_util_open_floating_preview(contents, syntax, opts, ...)
         end
