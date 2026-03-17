@@ -1,4 +1,4 @@
-local colorscheme = "dawnfox"
+local colorscheme = "melange"
 
 -- local function dbg(t)
 --     print(vim.inspect(t))
@@ -19,7 +19,7 @@ merge_into(vim.g, {
 })
 
 merge_into(vim.opt, {
-    winborder = "bold",
+    winborder = "solid",
     termguicolors = true,
 
     number = true,
@@ -40,6 +40,7 @@ merge_into(vim.opt, {
     tabstop = 4,
     shiftwidth = 4,
     expandtab = true,
+    listchars = { tab = '⇥ ' },
 
     numberwidth = 3,
     cmdheight = 0,
@@ -48,6 +49,7 @@ merge_into(vim.opt, {
     incsearch = true,
 
     encoding = "UTF-8",
+    scrolloff = 8,
 })
 
 local configurations = {}
@@ -67,7 +69,17 @@ local function setup_packs()
 end
 
 vim.pack.add {
+    pack("vague-theme/vague.nvim"),
+
+    pack("ellisonleao/gruvbox.nvim", function()
+        require("gruvbox").setup {
+            bold = false
+        }
+    end),
+
     pack("rose-pine/neovim"),
+
+    pack("savq/melange-nvim"),
 
     pack("EdenEast/nightfox.nvim", function()
         require('nightfox').setup({
@@ -192,9 +204,11 @@ vim.pack.add {
                     },
                 },
             },
-            -- filters = {
-            --     dotfiles = true, -- don't show dotfiles
-            -- },
+            filters = {
+                -- dotfiles = true, -- don't show dotfiles
+                custom = { "*.uid", "*.import" },
+                -- exclude = { ".uid", ".import" }, --  godot stuff
+            },
             sync_root_with_cwd = true,
             respect_buf_cwd = true,
             update_focused_file = {
@@ -247,6 +261,7 @@ vim.pack.add {
             lua = "lua",
             python = "python",
             json = "json",
+            gdscript = "gdscript",
         }
 
         local install_names = {}
@@ -309,7 +324,7 @@ vim.pack.add {
         luasnip.config.setup {}
 
         -- require('luasnip.loaders.from_snipmate').lazy_load()
-        require('luasnip.loaders.from_lua').load({paths = "/Users/subwave/.config/nvim/snippets"})
+        require('luasnip.loaders.from_lua').load({ paths = "/Users/subwave/.config/nvim/snippets" })
     end),
 
     pack('saghen/blink.cmp', function()
@@ -359,6 +374,23 @@ vim.pack.add {
             ty = {},
             ruff = {},
             gdscript = {},
+            rust_analyzer = {},
+            gopls = {
+                settings = {
+                    gopls = {
+                        buildFlags = { "-tags=wireinject" },
+                        hints = {
+                            rangeVariableTypes = true,
+                            parameterNames = true,
+                            constantValues = true,
+                            assignVariableTypes = true,
+                            compositeLiteralFields = true,
+                            compositeLiteralTypes = true,
+                            functionTypeParameters = true,
+                        },
+                    }
+                }
+            },
         }
 
         local blink = require("blink.cmp")
@@ -369,6 +401,14 @@ vim.pack.add {
             vim.lsp.config(name, config)
             vim.lsp.enable(name)
         end
+    end),
+
+    pack("stevearc/conform.nvim", function()
+        require("conform").setup {
+            formatters_by_ft = {
+                gdscript = { "gdformat" },
+            },
+        }
     end),
 
     pack('j-hui/fidget.nvim', function()
@@ -387,7 +427,8 @@ key("n", "s", "za", { desc = "toggle fold" })
 key("n", "S", "zR", { desc = "open all folds" })
 key("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "remove highlights" })
 key("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic error messages" })
-key("n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>", { desc = "Toggle inlay hints" })
+key("n", "<leader>h", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
+    { desc = "Toggle inlay hints" })
 key("n", "<leader>r", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })
 key("n", "<leader>w", "<C-w>", { desc = "Window" })
 key("n", "<leader>s", ":w<CR>", { desc = "Save" })
@@ -418,7 +459,8 @@ key('n', 'gd', telescope_builtin.lsp_definitions, { desc = 'goto definition' })
 key('n', 'gr', telescope_builtin.lsp_references, { desc = 'goto references' })
 key('n', 'gI', telescope_builtin.lsp_implementations, { desc = 'goto implementation' })
 key('n', '<F2>', vim.lsp.buf.rename, { desc = 'rename' })
-key('n', '<F3>', vim.lsp.buf.format, { desc = 'format document' })
+-- key('n', '<F3>', vim.lsp.buf.format, { desc = 'format document' })
+key('n', '<F3>', function () require("conform").format { lsp_format = "fallback" } end, { desc = 'format document' })
 key('n', '<F4>', vim.lsp.buf.code_action, { desc = 'code action' })
 key('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 key('n', 'gD', vim.lsp.buf.declaration, { desc = 'goto declaration' })
@@ -429,13 +471,13 @@ key("n", "<F1>", "<cmd>Trouble quickfix toggle<cr>", { desc = "Quickfix (Trouble
 
 Tools = {
     fix_float_appearance = function()
-        highlight(0, 'FloatBorder', { link = 'Normal' })
-        highlight(0, 'NormalFloat', { link = 'Normal' })
-        highlight(0, 'BlinkCmpKind', { link = 'Normal' })
-        highlight(0, 'BlinkCmpMenuBorder', { link = 'Normal' })
-        highlight(0, 'BlinkCmpMenu', { link = 'Normal' })
-        highlight(0, 'BlinkCmpDocBorder', { link = 'Normal' })
-        highlight(0, 'BlinkCmpDoc', { link = 'Normal' })
+        -- highlight(0, 'FloatBorder', { link = 'Normal' })
+        -- highlight(0, 'NormalFloat', { link = 'Normal' })
+        -- highlight(0, 'BlinkCmpKind', { link = 'Normal' })
+        -- highlight(0, 'BlinkCmpMenuBorder', { link = 'Normal' })
+        -- highlight(0, 'BlinkCmpMenu', { link = 'Normal' })
+        -- highlight(0, 'BlinkCmpDocBorder', { link = 'Normal' })
+        -- highlight(0, 'BlinkCmpDoc', { link = 'Normal' })
         local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
         vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
             opts = opts or {}
@@ -447,7 +489,7 @@ Tools = {
 
     rooter = function()
         local project_rooter_config = {
-            patterns = { '.git', 'CMakeLists.txt', 'Makefile', 'package.json', 'Cargo.toml', 'pyproject.toml', 'go.mod', 'main.tex', '.root' },
+            patterns = { '.git', 'CMakeLists.txt', 'Makefile', 'package.json', 'Cargo.toml', 'pyproject.toml', 'go.mod', 'main.tex', '.root', 'project.godot' },
             level_limit = 10, -- how many levels to go up
         }
 

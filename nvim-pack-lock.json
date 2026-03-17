@@ -16,6 +16,10 @@
       "rev": "b137f63d89d0285ca76eed12e1923220e0aff8c1",
       "src": "https://github.com/saghen/blink.cmp"
     },
+    "conform.nvim": {
+      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
     "copilot-lualine": {
       "rev": "222e90bd8dcdf16ca1efc4e784416afb5f011c31",
       "src": "https://github.com/AndreM222/copilot-lualine"
@@ -31,6 +35,10 @@
     "gitsigns.nvim": {
       "rev": "abf82a65f185bd54adc0679f74b7d6e1ada690c9",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "gruvbox.nvim": {
+      "rev": "334d5fd49fc8033f26408425366c66c6390c57bb",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
     },
     "iceberg.vim": {
       "rev": "23835d5ed696436f716cbfdb56a93a7850fe3b18",
@@ -115,6 +123,10 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "vague.nvim": {
+      "rev": "8c4643f8a5106dbc492918f86ff6b5c81111ce9a",
+      "src": "https://github.com/vague-theme/vague.nvim"
     },
     "vim-hybrid": {
       "rev": "cc58baabeabc7b83768e25b852bf89c34756bf90",
